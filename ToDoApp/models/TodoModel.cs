@@ -4,11 +4,12 @@ using System.ComponentModel;
 
 namespace ToDoApp.models
 {
-    class TodoModel : INotifyPropertyChanged
+    public class TodoModel : INotifyPropertyChanged
     {
+        private bool isDone;
+        private string text;
 
-        private bool _isDone;
-        private string _text;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [JsonProperty(PropertyName = "creationDate")]
         public DateTime CreationDate { get; set; } = DateTime.Now;
@@ -16,34 +17,38 @@ namespace ToDoApp.models
         [JsonProperty(PropertyName = "isDone")]
         public bool IsDone
         {
-            get { return _isDone; }
-            set 
-            { 
-                if(_isDone == value)
+            get => isDone;
+            set
+            {
+                if (isDone == value)
+                {
                     return;
-                _isDone = value;
-                OnPropertyChanged("IsDone");
+                }
+
+                isDone = value;
+                OnPropertyChanged(nameof(IsDone));
             }
         }
 
         [JsonProperty(PropertyName = "text")]
         public string Text
         {
-            get { return _text; }
-            set 
+            get => text;
+            set
             {
-                if (_text == value)
+                if (text == value)
+                {
                     return;
-                _text = value;
-                OnPropertyChanged("Text");
+                }
+
+                text = value;
+                OnPropertyChanged(nameof(Text));
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName = "")
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
