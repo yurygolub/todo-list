@@ -32,7 +32,7 @@ namespace ToDoApp.viewModels
         {
             try
             {
-                TodoDataList = fileIOService.LoadData();
+                TodoDataList = fileIOService.LoadData() ?? new BindingList<TodoModel>();
             }
             catch (Exception ex)
             {
